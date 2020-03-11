@@ -20,7 +20,8 @@ use yii\helpers\Html;
         [
             'style' => 'max-height: ' . $widget->thumbnailHeight . 'px; max-width: ' . $widget->thumbnailWidth . 'px',
             'class' => 'thumbnail',
-            'data-no-photo' => $widget->noPhotoImage
+            'data-no-photo' => $widget->noPhotoImage,
+            'crossorigin' => 'anonymous',
         ]
     ); ?>
 
