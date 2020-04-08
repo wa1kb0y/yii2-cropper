@@ -22,6 +22,9 @@ class UploadAction extends Action
     public $extensions = 'jpeg, jpg, png, gif';
     public $jpegQuality = 100;
     public $pngCompressionLevel = 1;
+    public $filenamePrefix = '';
+
+    protected $model;
 
     /**
      * @inheritdoc
@@ -48,20 +51,20 @@ class UploadAction extends Action
     {
         if (Yii::$app->request->isPost) {
             $file = UploadedFile::getInstanceByName($this->uploadParam);
-            $model = new DynamicModel(compact($this->uploadParam));
-            $model->addRule($this->uploadParam, 'image', [
+            $this->model = new DynamicModel(compact($this->uploadParam));
+            $this->model->addRule($this->uploadParam, 'image', [
                 'maxSize' => $this->maxSize,
                 'tooBig' => Yii::t('cropper', 'TOO_BIG_ERROR', ['size' => $this->maxSize / (1024 * 1024)]),
                 'extensions' => explode(', ', $this->extensions),
                 'wrongExtension' => Yii::t('cropper', 'EXTENSION_ERROR', ['formats' => $this->extensions])
             ])->validate();
 
-            if ($model->hasErrors()) {
+            if ($this->model->hasErrors()) {
                 $result = [
-                    'error' => $model->getFirstError($this->uploadParam)
+                    'error' => $this->model->getFirstError($this->uploadParam)
                 ];
             } else {
-                $model->{$this->uploadParam}->name = uniqid() . '.' . $model->{$this->uploadParam}->extension;
+                $this->model->{$this->uploadParam}->name = uniqid($this->filenamePrefix) . '.' . $this->model->{$this->uploadParam}->extension;
                 $request = Yii::$app->request;
 
                 $width = $request->post('width');
@@ -97,9 +100,9 @@ class UploadAction extends Action
                     ;
                 } else {
                     $saveOptions = ['jpeg_quality' => $this->jpegQuality, 'png_compression_level' => $this->pngCompressionLevel];
-                    if ($image->save($this->path . $model->{$this->uploadParam}->name, $saveOptions)) {
+                    if ($image->save($this->path . $this->model->{$this->uploadParam}->name, $saveOptions)) {
                         $result = [
-                            'filelink' => $this->url . $model->{$this->uploadParam}->name
+                            'filelink' => $this->url . $this->model->{$this->uploadParam}->name
                         ];
                     } else {
                         $result = [
