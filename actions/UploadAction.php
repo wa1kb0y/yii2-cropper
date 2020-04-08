@@ -20,8 +20,6 @@ class UploadAction extends Action
     public $uploadParam = 'file';
     public $maxSize = 2097152;
     public $extensions = 'jpeg, jpg, png, gif';
-    public $width = 200;
-    public $height = 200;
     public $jpegQuality = 100;
     public $pngCompressionLevel = 1;
 
@@ -66,17 +64,32 @@ class UploadAction extends Action
                 $model->{$this->uploadParam}->name = uniqid() . '.' . $model->{$this->uploadParam}->extension;
                 $request = Yii::$app->request;
 
-                $width = $request->post('width', $this->width);
-                $height = $request->post('height', $this->height);
+                $width = $request->post('width');
+                $height = $request->post('height');
+                $crop_width = $request->post('w');
+                $crop_height = $request->post('h');
 
                 $image = Image::crop(
                     $file->tempName . $request->post('filename'),
                     intval($request->post('w')),
                     intval($request->post('h')),
                     [$request->post('x'), $request->post('y')]
-                )->resize(
-                    new Box($width, $height)
                 );
+
+                if (!$width) {
+                    $width = null;
+                }
+                if (!$height) {
+                    $height = null;
+                }
+
+                // both edges can't be null
+                if (!$width && !$height) {
+                    $width = $crop_width;
+                    $height = $crop_height;
+                }
+
+                $image = Image::resize($image, $width, $height);
 
                 if (!file_exists($this->path) || !is_dir($this->path)) {
                     $result = [

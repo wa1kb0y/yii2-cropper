@@ -11,8 +11,8 @@ use Yii;
 class Widget extends InputWidget
 {
     public $uploadParameter = 'file';
-    public $width = 200;
-    public $height = 200;
+    public $width;
+    public $height;
     public $label = '';
     public $uploadUrl;
     public $noPhotoImage = '';
@@ -87,8 +87,17 @@ class Widget extends InputWidget
         if ($this->onCompleteJcrop)
             $settings['onCompleteJcrop'] = $this->onCompleteJcrop;
 
+
+        $selector_width = $this->width ? $this->width : 0;
+        $selector_height = $this->height ? $this->height : 0;
+        if (!$selector_width || !$selector_height) {
+            $selector_width = 0;
+            $selector_height = 0;
+        }
+
+
         $view->registerJs(
-            'jQuery("#' . $this->options['id'] . '").parent().find(".new-photo-area").cropper(' . Json::encode($settings) . ', ' . $this->width . ', ' . $this->height . ');',
+            'jQuery("#' . $this->options['id'] . '").parent().find(".new-photo-area").cropper(' . Json::encode($settings) . ', ' . $selector_width . ', ' . $selector_height . ');',
             $view::POS_READY
         );
     }

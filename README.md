@@ -1,6 +1,6 @@
 Cropper
 ===========
-Yii-Framework extension for uploading and cropping images
+Yii 2 framework extension for uploading and cropping images.
 
 Installation
 ------------
@@ -46,8 +46,8 @@ Widget has following properties:
 | Name     | Description    | Default |  Required   |
 | --------|---------|-------|------|
 | uploadParameter  | Upload parameter name | file    |No |
-| width  | The final width of the image after cropping | 200    |No |
-| height  | The final height of the image after cropping | 200    |No |
+| width  | The final width of the image after cropping | `null`    |No |
+| height  | The final height of the image after cropping | `null`    |No |
 | label  | Hint in box for preview | It depends on application language. You can translate this message on your language and make pull-request.    |No |
 | uploadUrl  | URL for uploading and cropping image |     |Yes |
 | noPhotoImage  | The picture, which is used when a photo is not loaded. | You can see it on screenshots in this instructions   |No |
@@ -81,16 +81,23 @@ Action has following parameters:
 | uploadParameter  | Upload parameter name. It must match the value of a similar parameter of the widget. | file    |No |
 | maxSize  | The maximum file size (kb). It must match the value of a similar parameter of the widget. | 2097152    |No |
 | extensions  | Allowed file extensions (string). It must match the value of a similar parameter of the widget. | jpeg, jpg, png, gif    |No |
-| width  | The final width of the image after cropping. It must match the value of a similar parameter of the widget. | 200    |No |
-| height  | The final height of the image after cropping. It must match the value of a similar parameter of the widget. | 200    |No |
+| width  | The final width of the image after cropping. It must match the value of a similar parameter of the widget. | `null`    |No |
+| height  | The final height of the image after cropping. It must match the value of a similar parameter of the widget. | `null`    |No |
 | jpegQuality  | Quality of cropped image (JPG) | 100    |No |
 | pngCompressionLevel  | Quality of cropped image (PNG) | 1    |No |
 
 
 You can use this widget on frontend and backend. For example: user can change his userpic and administrator can change users userpic.
 
-Operates as follows:
---------------------
+Free aspect ratio
+-----------------
+- If you need to allow user select free edges for cropping, you can leave `width` and `height` settings by default (null).
+- You can set only `width` or `height` property. In this case resulted image will be automatically resized by proveded edge. 
+ - If edge size lesser it will be leaved as is (not resized).
+
+
+Operates as follows
+-------------------
 
 User click on new photo area or drag file
 
