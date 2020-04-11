@@ -69,14 +69,19 @@ class UploadAction extends Action
 
                 $width = $request->post('width');
                 $height = $request->post('height');
-                $crop_width = $request->post('w');
-                $crop_height = $request->post('h');
+                $crop_x = $request->post('x');
+                $crop_y = $request->post('y');
+                $crop_w = abs($request->post('w'));
+                $crop_h = abs($request->post('h'));
+
+                if ($crop_x < 0) { $crop_x = 0; }
+                if ($crop_y < 0) { $crop_y = 0; }
 
                 $image = Image::crop(
                     $file->tempName . $request->post('filename'),
-                    intval($request->post('w')),
-                    intval($request->post('h')),
-                    [$request->post('x'), $request->post('y')]
+                    intval($crop_w),
+                    intval($crop_h),
+                    [$crop_x, $crop_y]
                 );
 
                 if (!$width) {
@@ -88,8 +93,8 @@ class UploadAction extends Action
 
                 // both edges can't be null
                 if (!$width && !$height) {
-                    $width = $crop_width;
-                    $height = $crop_height;
+                    $width = $crop_w;
+                    $height = $crop_h;
                 }
 
                 $image = Image::resize($image, $width, $height);
