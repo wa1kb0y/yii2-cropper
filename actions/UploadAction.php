@@ -77,12 +77,16 @@ class UploadAction extends Action
                 if ($crop_x < 0) { $crop_x = 0; }
                 if ($crop_y < 0) { $crop_y = 0; }
 
-                $image = Image::crop(
-                    $file->tempName . $request->post('filename'),
-                    intval($crop_w),
-                    intval($crop_h),
-                    [$crop_x, $crop_y]
-                );
+                $image = $file->tempName . $request->post('filename');
+
+                if ($crop_x && $crop_y && $crop_w && $crop_h) {
+                    $image = Image::crop(
+                        $image,
+                        intval($crop_w),
+                        intval($crop_h),
+                        [$crop_x, $crop_y]
+                    );
+                }
 
                 if (!$width) {
                     $width = null;
