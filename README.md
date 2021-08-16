@@ -133,7 +133,31 @@ Free aspect ratio
 -----------------
 - If you need to allow user select free edges for cropping, you can leave `width` and `height` settings by default (null).
 - You can set only `width` or `height` property. In this case resulted image will be automatically resized by proveded edge. 
- - If edge size lesser it will be leaved as is (not resized).
+- If edge size lesser it will be leaved as is (not resized).
+
+
+Modal view
+----------
+```
+<?= $form->field($model, 'avatar')->widget(Widget::class, [
+    'uploadUrl' => Yii::getAlias('@frontendWebroot/upload/cropper-upload'),
+    'width' => 300,
+    'height' => 300,
+    'cropAreaHeight' => 350,
+    'cropAreaWidth' => null,
+    'aspectRatio' => 0,
+    'thumbnailHeight' => 150,
+    'asModal' => true,
+    'modalOptions' => [
+        'header' => 'Photo uploading',
+        //'btnSubmitShow' => true,
+        //'btnCloseShow' => true,
+        //'btnCloseText' => 'Save',
+        //'submitOnClose' => true,
+        'submitFormId' => $form->id,
+    ],
+]) ?>
+```
 
 
 Operates as follows
