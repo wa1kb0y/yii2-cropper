@@ -37,7 +37,15 @@ use yii\helpers\Html;
         </button>
     </div>
 
-    <div class="new-photo-area" style="height: <?= $widget->cropAreaHeight; ?>px; width: <?= $widget->cropAreaWidth; ?>px;">
+    <?php
+    $cropAreaHeight = $widget->cropAreaHeight.'px';
+    $cropAreaWidth = $widget->cropAreaWidth.'px';
+    if (!$widget->cropAreaWidth) {
+        $cropAreaWidth = '100%';
+    }
+    ?>
+
+    <div class="new-photo-area" style="height: <?= $cropAreaHeight; ?>; width: <?= $cropAreaWidth ?>;">
         <div class="cropper-label">
             <span><?= $widget->label;?></span>
         </div>

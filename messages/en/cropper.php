@@ -25,5 +25,9 @@ return [
     'ONLY_POST_REQUEST' => 'Allowed only POST-request',
     'UPLOAD_ANOTHER_PHOTO' => 'Upload another photo',
     'TOO_BIG_ERROR' => 'Exceeded the allowable size of the file ({size} Mb)',
-    'EXTENSION_ERROR' => 'Enable only the following file formats: {formats}'
+    'EXTENSION_ERROR' => 'Enable only the following file formats: {formats}',
+
+    'MODAL_BTN_LAUNCH' => 'Upload',
+    'MODAL_BTN_CLOSE' => 'Close',
+    'MODAL_BTN_SUBMIT' => 'Save',
 ];

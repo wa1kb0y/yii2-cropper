@@ -25,6 +25,8 @@ class Widget extends InputWidget
     public $onCompleteJcrop;
     public $pluginOptions = [];
     public $aspectRatio = null;
+    public $asModal = false;
+    public $modalOptions = [];
 
     /**
      * @inheritdoc
@@ -52,7 +54,12 @@ class Widget extends InputWidget
     {
         $this->registerClientAssets();
 
-        return $this->render('widget', [
+        $view = 'widget';
+        if ($this->asModal) {
+            $view = 'modal';
+        }
+
+        return $this->render($view, [
             'model' => $this->model,
             'widget' => $this
         ]);
