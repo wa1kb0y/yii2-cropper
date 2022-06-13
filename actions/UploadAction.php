@@ -67,12 +67,12 @@ class UploadAction extends Action
                 $this->model->{$this->uploadParam}->name = uniqid($this->filenamePrefix) . '.' . $this->model->{$this->uploadParam}->extension;
                 $request = Yii::$app->request;
 
-                $width = $request->post('width');
-                $height = $request->post('height');
-                $crop_x = $request->post('x');
-                $crop_y = $request->post('y');
-                $crop_w = abs($request->post('w'));
-                $crop_h = abs($request->post('h'));
+                $width = (int)$request->post('width');
+                $height = (int)$request->post('height');
+                $crop_x = (int)$request->post('x');
+                $crop_y = (int)$request->post('y');
+                $crop_w = (int)abs($request->post('w'));
+                $crop_h = (int)abs($request->post('h'));
 
                 if ($crop_x < 0) { $crop_x = 0; }
                 if ($crop_y < 0) { $crop_y = 0; }
