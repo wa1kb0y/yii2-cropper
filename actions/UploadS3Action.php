@@ -1,39 +1,41 @@
 <?php
 namespace budyaga\cropper\actions;
 
+use creocoder\flysystem\AwsS3Filesystem;
 use Yii;
 use yii\helpers\ArrayHelper;
-use Aws\S3\Exception\S3Exception;
 
 class UploadS3Action extends UploadAction
 {
     /**
      * S3 storage component
-     * @var \bilberrry\spaces\Service
+     * @var string \bilberrry\spaces\Service
      */
-    public $s3;
+    public string $fsComponent = 'fs';
 
     /**
      * Path for files on S3
-     * @var string
      */
-    public $remotePath = '';
+    public string $remotePath = '';
 
     /**
      * Keep a local file of file after uploading to S3
-     * @var boolean
      */
-    public $keepLocal = false;
+    public bool $keepLocal = false;
 
-    public function run()
+    public function run(): array
     {
         $result = parent::run();
 
         $localPath = $this->path . $this->model->{$this->uploadParam}->name;
         $remotePath = $this->remotePath . DIRECTORY_SEPARATOR . $this->model->{$this->uploadParam}->name;
         if (file_exists($localPath)) {
-            $res = Yii::$app->{$this->s3}->commands()->upload($remotePath, $localPath)->execute();
-            $result['filelink'] = $res->get('ObjectURL');
+            /** @var AwsS3Filesystem $fs */
+            $fs = Yii::$app->get($this->fsComponent);
+            $res = $fs->write($remotePath, file_get_contents($localPath));
+            if ($res) {
+                $result['filelink'] = $fs->baseUrl . '/' . $remotePath;
+            }
             if (!$this->keepLocal) {
                 unlink($localPath);
             }

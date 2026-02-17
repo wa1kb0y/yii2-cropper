@@ -1,3 +1,7 @@
+#### 3.0.0
+* BC: S3 uploading component dependency replaced
+* BC: Min php version 7.4
+
 #### 2.0.19
 * Fix for calculating ration
 * Add settings for image quality
