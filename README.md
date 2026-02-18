@@ -87,25 +87,29 @@ UploadAction has following parameters:
 | jpegQuality  | Quality of cropped image (JPG) | 100    |No |
 | pngCompressionLevel  | Quality of cropped image (PNG) | 1    |No |
 
-Amazon S3, DigitalOcean Spaces uploading
+Amazon S3, DigitalOcean Spaces and other compatible storages uploading
 ----------------------------------------
 Use `UploadS3Action` action instead `UploadAction`.
 
-This action uses [bilberrry/yii2-digitalocean-spaces](https://github.com/bilberrry/yii2-digitalocean-spaces) for working with S3.
+This action uses [creocoder/yii2-flysystem](https://github.com/creocoder/yii2-flysystem) and [league/flysystem-aws-s3-v3](https://github.com/thephpleague/flysystem-aws-s3-v3) for working with S3.
 
 S3 component config example:
 ```
 'components' = [
-    ...
-    'storage' => [
-        'class' => bilberrry\spaces\Service::class,
-        'credentials' => [
-            'key' => 'your-key',
-            'secret' => 'your-secret',
-        ],
-        'region' => 'sfo2', // currently available: nyc3, ams3, sgp1, sfo2
-        'defaultSpace' => 'your-space-name',
-        'defaultAcl' => 'public-read',
+    ...    
+    'fs' => [
+        'class' => \creocoder\flysystem\AwsS3Filesystem::class,
+        'endpoint' => 'https://sfo2.digitaloceanspaces.com',
+        'key' => 'your-key',
+        'secret' => 'your-secret',
+        'baseUrl' => 'https://sfo2.digitaloceanspaces.com/my-project',
+        'region' => 'sfo2',
+        'version' => 'latest',
+        'bucket' => 'mybucket',
+        'prefix' => 'my-project',
+        'options' => [
+            'ACL' => 'public-read',
+        ]
     ],
     ...
 ]
@@ -118,9 +122,9 @@ public function actions()
     return [
         'uploadPhoto' => [
             'class' => 'budyaga\cropper\actions\UploadS3Action',
-            'url' => 'http://your_domain.com/uploads/user/photo',
+            'url' => 'https://your_domain.com/uploads/user/photo',
             'path' => '@frontend/web/uploads/user/photo',
-            's3' => 'storage',
+            'fsComponent' => 'fs', // filesystem component name
             'remotePath' => 'images'
         ]
     ];
