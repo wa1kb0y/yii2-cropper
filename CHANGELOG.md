@@ -1,3 +1,7 @@
+#### 3.0.1
+* Fix: crop selection showed a shifted part of the image when the page CSS limits `img` width
+* Fix: Bootstrap 4/5 layout (hidden buttons and progress bar, button spacing, no glyphicons)
+
 #### 3.0.0
 * BC: S3 uploading component dependency replaced
 * BC: Min php version 7.4

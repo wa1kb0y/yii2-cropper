@@ -19,3 +19,36 @@
 .new-photo-area img {
     visibility: hidden;
 }
+
+/* Jcrop sizes its images itself: host resets like `.app img { max-width: 100% }` shrink the
+   image inside the selection, so the selection shows a different part of the photo. */
+.cropper-widget .jcrop-holder img {
+    max-width: none;
+    max-height: none;
+}
+
+/* Bootstrap 4/5 dropped the `hidden` helper, which the widget uses to toggle its parts */
+.cropper-widget .hidden {
+    display: none !important;
+}
+.cropper-widget .thumbnail {
+    display: block;
+    border-radius: 7px;
+}
+.cropper-widget .cropper-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+.cropper-widget .cropper-buttons .btn {
+    margin: 0;
+}
+/* Glyphicons ship with Bootstrap 3 only */
+.cropper-widget .cropper-buttons .glyphicon {
+    display: none;
+}
+.cropper-widget .progress {
+    max-width: 100%;
+    margin-bottom: 20px;
+}
