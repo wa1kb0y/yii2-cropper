@@ -38,6 +38,7 @@
                             cropper.$img.Jcrop({
                                 aspectRatio: aspectRatio,
                                 setSelect: [x1, y1, x2, y2],
+                                trueSize: [this.width, this.height],
                                 boxWidth: cropper.$new_photo_area.width(),
                                 boxHeight: cropper.$new_photo_area.height(),
                                 keySupport: false

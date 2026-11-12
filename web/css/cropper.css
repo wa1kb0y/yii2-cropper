@@ -22,9 +22,9 @@
 
 /* Jcrop sizes its images itself: host resets like `.app img { max-width: 100% }` shrink the
    image inside the selection, so the selection shows a different part of the photo. */
-.cropper-widget .jcrop-holder img {
-    max-width: none;
-    max-height: none;
+.cropper-widget .new-photo-area img {
+    max-width: none !important;
+    max-height: none !important;
 }
 
 /* Bootstrap 4/5 dropped the `hidden` helper, which the widget uses to toggle its parts */

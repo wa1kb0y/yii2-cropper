@@ -1,3 +1,7 @@
+#### 3.0.2
+* Fix: crop selection was shrunk when the page CSS limits `img` width with a more specific selector
+* Fix: cropped area did not match the selection for images larger than the crop area when the page CSS limits `img` width
+
 #### 3.0.1
 * Fix: crop selection showed a shifted part of the image when the page CSS limits `img` width
 * Fix: Bootstrap 4/5 layout (hidden buttons and progress bar, button spacing, no glyphicons)
